@@ -101,9 +101,9 @@ class CfgMarkers {
     class Flag;
     class Hull3_UnitMarker : Flag {
         name = "Unit Icon";
-        icon = "\A3\ui_f\data\map\vehicleicons\iconMan_ca.paa";
+        icon = ADDON_PATH(resources\hull3_unit_marker.paa);
         color[] = {1, 0, 0, 1};
-        shadow = true;
+        shadow = 0;
         scope = 1;
     };
 };
