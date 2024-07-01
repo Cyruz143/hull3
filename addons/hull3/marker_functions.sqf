@@ -219,7 +219,7 @@ hull3_marker_fnc_removeFireTeamMarker = {
 
     private _deleteFnc = {
         params ["_unit"];
-        private _markerName = format ["hull3_marker_fireTeam_%1", _unit];
+        private _markerName = _unit getVariable ["hull3_marker_fireTeam", ""];
         _unit setVariable ["hull3_marker_fireTeam", nil];
         hull3_marker_fireTeam deleteAt (hull3_marker_fireTeam find _unit);
         deleteMarkerLocal _markerName;
