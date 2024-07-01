@@ -24,6 +24,10 @@ hull3_marker_fnc_postInit = {
         } foreach hull3_marker_rawGroupMarkers;
     } else {
         call hull3_marker_fnc_cacheColours;
+        allGroups apply {
+            _x addEventHandler ["UnitLeft", {call hull3_marker_fnc_removeFireTeamMarker}];
+            _x addEventHandler ["UnitJoined", {call hull3_marker_fnc_joinFireTeamMarker}];
+        };
     };
 };
 
@@ -185,17 +189,16 @@ hull3_marker_fnc_updateCustomMarker = {
 hull3_marker_fnc_addFireTeamMarkers = {
     params ["_unit"];
 
-    if (hull3_marker_isFireTeamEnabled) then {
-        {
-            [_x] call hull3_marker_fnc_addFireTeamMarker;
-        } foreach (units group _unit);
-        PUSH(hull3_marker_updatableMarkers,AS_ARRAY_2(hull3_marker_fireTeam,hull3_marker_fnc_updateFireTeamMarkers));
-    };
+    {
+        [_x] call hull3_marker_fnc_addFireTeamMarker;
+    } foreach (units group _unit);
+    PUSH(hull3_marker_updatableMarkers,AS_ARRAY_2(hull3_marker_fireTeam,hull3_marker_fnc_updateFireTeamMarkers));
 };
 
 hull3_marker_fnc_addFireTeamMarker = {
     params ["_unit"];
 
+    if !(hull3_marker_isFireTeamEnabled) exitWith {};
     _markerName = format ["hull3_marker_fireTeam_%1", _unit];
     [
         _markerName,
@@ -209,6 +212,42 @@ hull3_marker_fnc_addFireTeamMarker = {
     ] call hull3_marker_fnc_createMarker;
     _unit setVariable ["hull3_marker_fireTeam", _markerName];
     PUSH(hull3_marker_fireTeam,_unit);
+};
+
+hull3_marker_fnc_removeFireTeamMarker = {
+    params ["_group", "_unit"];
+
+    private _deleteFnc = {
+        params ["_unit"];
+        private _markerName = format ["hull3_marker_fireTeam_%1", _unit];
+        _unit setVariable ["hull3_marker_fireTeam", nil];
+        hull3_marker_fireTeam deleteAt (hull3_marker_fireTeam find _unit);
+        deleteMarkerLocal _markerName;
+    };
+
+    if (_unit == ace_player) then {
+        private _filteredGroup = units _group select {_x != _unit};
+        {_x call _deleteFnc} forEach _filteredGroup
+    } else {
+        _unit call _deleteFnc;
+    };
+};
+
+hull3_marker_fnc_joinFireTeamMarker = {
+    params ["_group", "_unit"];
+
+    if (_unit == ace_player) then {
+        [
+            {group (_this#1) == (_this#0)},
+            {
+                private _filteredGroup = units (_this#0) select {_x != (_this#1)};
+                {[_x] call hull3_marker_fnc_addFireTeamMarker} foreach _filteredGroup;
+            },
+            [_group, _unit]
+        ] call CBA_fnc_waitUntilAndExecute;
+    } else {
+        [_unit] call hull3_marker_fnc_addFireTeamMarker;
+    };
 };
 
 hull3_marker_fnc_addCustomSideMarker = {
