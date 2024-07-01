@@ -229,7 +229,9 @@ hull3_marker_fnc_removeFireTeamMarker = {
         private _filteredGroup = units _group select {_x != _unit};
         {_x call _deleteFnc} forEach _filteredGroup
     } else {
-        _unit call _deleteFnc;
+        if (_group == group ace_player) then {
+            _unit call _deleteFnc;
+        };
     };
 };
 
@@ -246,7 +248,9 @@ hull3_marker_fnc_joinFireTeamMarker = {
             [_group, _unit]
         ] call CBA_fnc_waitUntilAndExecute;
     } else {
-        [_unit] call hull3_marker_fnc_addFireTeamMarker;
+        if (_group == group ace_player) then {
+            [_unit] call hull3_marker_fnc_addFireTeamMarker;
+        };
     };
 };
 
