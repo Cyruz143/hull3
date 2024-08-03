@@ -36,9 +36,9 @@ class MissionParams {
         {0.48,    0,       0,    0,       2.5,   0.5,  0.25,    0},    // Overcast (Light Winds)
         {0.48,    0,       0,    0,       10,    1,    0.50,    0},    // Overcast (Strong Winds)
 
-        {1,       0.33,    0,    0.25,    2.5,   0.5,  0.25,    0},    // Rain (Light Winds)
-        {1,       0.66,    0,    0.50,    10,    1,    0.50,    0},    // Rain (Strong Winds)
-        {1,       1,       0,    1,       20,    1,       1,    0},    // Storm
+        {1,       0.33,    0.25, 0.25,    2.5,   0.5,  0.25,    0},    // Rain (Light Winds)
+        {1,       0.66,    0.5,  0.50,    10,    1,    0.50,    0},    // Rain (Strong Winds)
+        {1,       1,       1,    1,       20,    1,       1,    0},    // Storm
 
         {1,       0.33,    0,    0.25,    2.5,   0.5,  0.25,    1},    // Snow (Light Winds)
         {1,       0.66,    0,    0.50,    10,    1,    0.50,    1},    // Snow (Strong Winds)
