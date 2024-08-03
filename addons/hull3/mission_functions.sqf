@@ -125,7 +125,7 @@ hull3_mission_fnc_setWeather = {
     _time setRainbow (_weather #2);
     _time setLightnings (_weather #3);
     setWind [(_weather #4), (_weather #4), true];
-    _time setWindForce (_weather #5);
+    _time setGusts (_weather #5);
     _time setWaves (_weather #6);
     private _snow = _weather #7;
 
