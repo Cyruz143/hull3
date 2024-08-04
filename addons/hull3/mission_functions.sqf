@@ -122,11 +122,11 @@ hull3_mission_fnc_setWeather = {
 
     [(_weather #0)] call BIS_fnc_setOvercast;
     _time setRain (_weather #1);
-    [_time, (_weather #2)] remoteExec ["setRainbow", 0];
+    [_time, (_weather #2)] remoteExec ["setRainbow", 0, true];
     _time setLightnings (_weather #3);
     setWind [(_weather #4), (_weather #4), true];
-    [_time, (_weather #5)] remoteExec ["setGusts", 0];
-    [_time, (_weather #6)] remoteExec ["setWaves", 0];
+    [_time, (_weather #5)] remoteExec ["setGusts", 0, true];
+    [_time, (_weather #6)] remoteExec ["setWaves", 0, true];
     private _snow = _weather #7;
 
     if (!isNil "_snow" && {_snow isEqualTo 1}) then {
